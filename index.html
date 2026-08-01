@@ -4,45 +4,41 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#050809">
-<title>AiLynx BTC Viewer v0.2</title>
+<title>AiLynx BTC Viewer v0.3</title>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js" defer></script>
 <style>
-:root{--bg:#050809;--panel:#0c1214;--panel2:#11191c;--line:#273338;--text:#f5f7f8;--muted:#8fa0a5;--cyan:#39e5e2;--green:#52f06e;--yellow:#ffd95a;--red:#ff6375}
-*{box-sizing:border-box} html{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI","Noto Sans KR",sans-serif}
-body{margin:0;background:radial-gradient(circle at top right,rgba(57,229,226,.08),transparent 35%),var(--bg)}
-.app{width:min(100%,760px);margin:auto;padding:max(18px,env(safe-area-inset-top)) 14px calc(30px + env(safe-area-inset-bottom))}
-header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
-.eyebrow{margin:0 0 5px;color:var(--cyan);font-size:.72rem;font-weight:800;letter-spacing:.12em}
-h1{margin:0;font-size:clamp(1.35rem,6vw,2rem)} .badge{border:1px solid rgba(255,217,90,.45);border-radius:999px;padding:7px 11px;color:var(--yellow);font-size:.75rem;font-weight:900}
-.tfbar{position:sticky;top:0;z-index:10;margin:0 -14px 12px;padding:10px 14px;background:rgba(5,8,9,.94);border-bottom:1px solid #172125;backdrop-filter:blur(12px)}
-.tfbuttons{display:flex;gap:8px;overflow:auto;scrollbar-width:none} .tfbuttons::-webkit-scrollbar{display:none}
-.tfbtn{flex:0 0 auto;min-width:52px;min-height:42px;border:1px solid var(--line);border-radius:11px;background:var(--panel);color:var(--muted);font-weight:850}
-.tfbtn.active{background:var(--cyan);color:#001111;border-color:var(--cyan)}
-.panel,.card,.controls,.help{border:1px solid var(--line);background:linear-gradient(180deg,rgba(17,25,28,.98),rgba(8,13,15,.98));border-radius:16px}
-.summary{padding:16px;margin-bottom:12px} .sumtop{display:flex;justify-content:space-between;gap:12px;padding-bottom:13px;border-bottom:1px solid #172125}
-.label{display:block;color:var(--muted);font-size:.64rem;font-weight:850;letter-spacing:.08em;margin-bottom:4px}
-.symbol{margin:0;color:var(--cyan);font-weight:900;overflow-wrap:anywhere} .tfchip{min-width:86px;text-align:center;border:1px solid rgba(57,229,226,.4);border-radius:12px;padding:9px 10px;background:rgba(57,229,226,.07)} .tfchip strong{display:block;color:var(--green);font-size:1.2rem}
-.sumgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:14px 0} .sumgrid strong{font-size:.84rem;overflow-wrap:anywhere}
-.brief{margin:0;padding:11px 12px;border-left:3px solid var(--yellow);border-radius:9px;background:rgba(255,217,90,.06);font-size:.86rem;line-height:1.55}
-.grid{display:grid;grid-template-columns:1fr;gap:12px} .card{overflow:hidden}
-.cardhead{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid var(--line)} .titlewrap{display:flex;align-items:center;gap:10px}
-.idx{display:grid;place-items:center;width:28px;height:28px;border-radius:8px;background:var(--cyan);color:#001111;font-weight:950;font-size:.78rem}
-.card h2{margin:0;font-size:.95rem} .state{border:1px solid var(--line);border-radius:999px;padding:6px 9px;font-size:.68rem;font-weight:900}
-table{width:100%;border-collapse:collapse;table-layout:fixed} th,td{padding:10px 13px;border-bottom:1px solid #172125;text-align:left;font-size:.81rem;line-height:1.3;overflow-wrap:anywhere} tr:last-child th,tr:last-child td{border-bottom:0} th{width:43%;color:var(--muted)} td{font-weight:850}
-.good{color:var(--green)!important} .watch,.warn{color:var(--yellow)!important} .danger{color:var(--red)!important} .info{color:var(--cyan)!important}
+:root{--bg:#050809;--panel:#0c1214;--panel2:#11191c;--line:#273338;--soft:#172125;--text:#f5f7f8;--muted:#8fa0a5;--cyan:#39e5e2;--green:#52f06e;--yellow:#ffd95a;--red:#ff6375;--blue:#6eb8ff}
+*{box-sizing:border-box}html{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI","Noto Sans KR",sans-serif}body{margin:0;background:radial-gradient(circle at top right,rgba(57,229,226,.08),transparent 35%),var(--bg)}
+.app{width:min(100%,760px);margin:auto;padding:max(18px,env(safe-area-inset-top)) 14px calc(150px + env(safe-area-inset-bottom))}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}.eyebrow{margin:0 0 5px;color:var(--cyan);font-size:.72rem;font-weight:800;letter-spacing:.12em}h1{margin:0;font-size:clamp(1.35rem,6vw,2rem)}
+.badge{border:1px solid rgba(255,217,90,.45);border-radius:999px;padding:7px 11px;color:var(--yellow);font-size:.75rem;font-weight:900}.badge.manual{color:var(--green);border-color:rgba(82,240,110,.45)}.badge.live{color:var(--cyan);border-color:rgba(57,229,226,.45)}
+.tfbar{position:sticky;top:0;z-index:10;margin:0 -14px 12px;padding:10px 14px;background:rgba(5,8,9,.94);border-bottom:1px solid var(--soft);backdrop-filter:blur(12px)}.tfbuttons{display:flex;gap:8px;overflow:auto;scrollbar-width:none}.tfbuttons::-webkit-scrollbar{display:none}
+.tfbtn{flex:0 0 auto;min-width:52px;min-height:42px;border:1px solid var(--line);border-radius:11px;background:var(--panel);color:var(--muted);font-weight:850}.tfbtn.active{background:var(--cyan);color:#001111;border-color:var(--cyan)}
+.panel,.card,.dock,.modalbox{border:1px solid var(--line);background:linear-gradient(180deg,rgba(17,25,28,.98),rgba(8,13,15,.98));border-radius:16px}
+.summary{padding:16px;margin-bottom:12px}.sumtop{display:flex;justify-content:space-between;gap:12px;padding-bottom:13px;border-bottom:1px solid var(--soft)}.label{display:block;color:var(--muted);font-size:.64rem;font-weight:850;letter-spacing:.08em;margin-bottom:4px}.symbol{margin:0;color:var(--cyan);font-weight:900;overflow-wrap:anywhere}
+.tfchip{min-width:86px;text-align:center;border:1px solid rgba(57,229,226,.4);border-radius:12px;padding:9px 10px;background:rgba(57,229,226,.07)}.tfchip strong{display:block;color:var(--green);font-size:1.2rem}
+.sumgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:14px 0}.sumgrid strong{font-size:.84rem;overflow-wrap:anywhere}.brief{margin:0;padding:11px 12px;border-left:3px solid var(--yellow);border-radius:9px;background:rgba(255,217,90,.06);font-size:.86rem;line-height:1.55}
+.grid{display:grid;grid-template-columns:1fr;gap:12px}.card{overflow:hidden}.cardhead{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid var(--line)}.titlewrap{display:flex;align-items:center;gap:10px}
+.idx{display:grid;place-items:center;width:28px;height:28px;border-radius:8px;background:var(--cyan);color:#001111;font-weight:950;font-size:.78rem}.card h2{margin:0;font-size:.95rem}.state{border:1px solid var(--line);border-radius:999px;padding:6px 9px;font-size:.68rem;font-weight:900}
+table{width:100%;border-collapse:collapse;table-layout:fixed}th,td{padding:10px 13px;border-bottom:1px solid var(--soft);text-align:left;font-size:.81rem;line-height:1.3;overflow-wrap:anywhere}tr:last-child th,tr:last-child td{border-bottom:0}th{width:43%;color:var(--muted)}td{font-weight:850}
+.good{color:var(--green)!important}.watch,.warn{color:var(--yellow)!important}.danger{color:var(--red)!important}.info{color:var(--cyan)!important}
 .footer{display:flex;justify-content:space-between;gap:10px;padding:12px 4px 2px;color:#64757a;font-size:.59rem;font-weight:750}
-.controls{position:sticky;bottom:calc(8px + env(safe-area-inset-bottom));z-index:20;display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:15px;padding:10px;backdrop-filter:blur(14px)}
-button{font:inherit} .ctl{min-height:47px;border:1px solid var(--line);border-radius:11px;font-weight:900} .secondary{background:var(--panel2);color:var(--text)} .primary{grid-column:1/-1;background:var(--cyan);color:#001111;border-color:var(--cyan)} .ghost{grid-column:1/-1;background:transparent;color:var(--muted)}
-.help{margin-top:12px;padding:14px;font-size:.82rem;line-height:1.5} .help p{margin:5px 0 0} .muted{color:var(--muted)}
-.toast{position:fixed;left:50%;bottom:28px;z-index:99;transform:translate(-50%,20px);opacity:0;transition:.2s;padding:10px 14px;border:1px solid var(--line);border-radius:999px;background:#0c1214;font-size:.8rem;pointer-events:none} .toast.show{opacity:1;transform:translate(-50%,0)}
-body.capture .hide{display:none!important} body.capture .app{padding-top:8px} body.capture #captureArea{border:1px solid var(--line);border-radius:18px;padding:10px}
-@media(min-width:650px){.grid{grid-template-columns:1fr 1fr} .controls{grid-template-columns:1fr 1fr 1.4fr 1fr} .primary,.ghost{grid-column:auto}}
+.dock{position:fixed;left:50%;bottom:calc(10px + env(safe-area-inset-bottom));z-index:30;transform:translateX(-50%);width:min(calc(100% - 24px),736px);display:grid;grid-template-columns:1fr 1fr 1.35fr 1fr;gap:8px;padding:10px;backdrop-filter:blur(14px)}
+.ctl{min-height:48px;border:1px solid var(--line);border-radius:11px;font:inherit;font-weight:900}.secondary{background:var(--panel2);color:var(--text)}.primary{background:var(--cyan);color:#001111;border-color:var(--cyan)}.ghost{background:transparent;color:var(--muted)}
+.modal{position:fixed;inset:0;z-index:100;display:none;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.72);padding:12px}.modal.open{display:flex}.modalbox{width:min(100%,760px);max-height:88vh;overflow:auto;padding:16px;border-radius:20px}
+.modalhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}.modalhead h2{margin:0;font-size:1.1rem}.close{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--panel2);color:var(--text);font-size:1.3rem}
+textarea{width:100%;min-height:260px;padding:12px;border:1px solid var(--line);border-radius:12px;background:#050809;color:var(--text);font:12px/1.45 ui-monospace,SFMono-Regular,Consolas,monospace;resize:vertical}
+.modalactions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}.modalactions .wide{grid-column:1/-1}.hint{color:var(--muted);font-size:.8rem;line-height:1.5}.error{color:var(--red);font-size:.8rem;min-height:1.2em;margin-top:8px}
+.toast{position:fixed;left:50%;bottom:112px;z-index:120;transform:translate(-50%,20px);opacity:0;transition:.2s;padding:10px 14px;border:1px solid var(--line);border-radius:999px;background:#0c1214;font-size:.8rem;pointer-events:none}.toast.show{opacity:1;transform:translate(-50%,0)}
+body.capturing .hide-on-capture{display:none!important}body.capturing .app{padding-top:8px;padding-bottom:12px}body.capturing #captureArea{border:1px solid var(--line);border-radius:18px;padding:10px}
+@media(min-width:650px){.grid{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.dock{grid-template-columns:1fr 1fr}.dock .primary,.dock .ghost{grid-column:auto}.ctl{font-size:.84rem}}
 </style>
 </head>
 <body>
 <div class="app">
-<header class="hide"><div><p class="eyebrow">AiLynx · AS1 SINGLE FILE VIEWER</p><h1>BTC Timeframe Viewer</h1></div><span class="badge">SAMPLE</span></header>
-<div class="tfbar hide"><div id="tfbuttons" class="tfbuttons"></div></div>
-
+<header class="hide-on-capture"><div><p class="eyebrow">AiLynx · AS1 MOBILE VIEWER</p><h1>BTC Timeframe Viewer</h1></div><span id="sourceBadge" class="badge">SAMPLE</span></header>
+<div class="tfbar hide-on-capture"><div id="tfbuttons" class="tfbuttons"></div></div>
 <main id="captureArea">
 <section class="panel summary">
 <div class="sumtop"><div><span class="label">SYMBOL</span><p id="symbol" class="symbol">—</p></div><div class="tfchip"><span class="label">TIMEFRAME</span><strong id="selectedTf">—</strong></div></div>
@@ -55,43 +51,369 @@ body.capture .hide{display:none!important} body.capture .app{padding-top:8px} bo
 <p id="brief" class="brief">—</p>
 </section>
 <section id="grid" class="grid"></section>
-<footer class="footer"><span>LYNX BTC WEATHER · OFFLINE SAMPLE v0.2</span><span id="stamp">—</span></footer>
+<footer class="footer"><span>LYNX BTC WEATHER · VIEWER v0.3</span><span id="stamp">—</span></footer>
 </main>
+</div>
 
-<section class="controls hide">
+<section class="dock hide-on-capture">
 <button id="prev" class="ctl secondary">← 이전</button>
 <button id="next" class="ctl secondary">다음 →</button>
-<button id="captureBtn" class="ctl primary">캡처 모드</button>
-<button id="shareBtn" class="ctl ghost">이 화면 공유 안내</button>
+<button id="pngBtn" class="ctl primary">PNG 저장/공유</button>
+<button id="dataBtn" class="ctl ghost">데이터</button>
 </section>
-<section class="help hide"><strong>상태 확인</strong><p>시간축 버튼과 4개 카드가 보이면 정상입니다.</p><p class="muted">한 파일 안에 디자인·데이터·동작을 모두 넣은 오프라인 버전입니다.</p></section>
+
+<div id="dataModal" class="modal" aria-hidden="true">
+<div class="modalbox">
+<div class="modalhead"><div><span class="label">MANUAL DATA BRIDGE</span><h2>JSON 패킷 불러오기</h2></div><button id="closeModal" class="close">×</button></div>
+<p class="hint">한 시간축 패킷 또는 전체 frames 패킷을 붙여넣을 수 있습니다. 저장된 값은 이 기기의 브라우저에 남습니다.</p>
+<textarea id="jsonInput" spellcheck="false">{
+  "symbol": "OKX:BTCUSDT.P",
+  "timeframe": "4H",
+  "measuredAt": "2026-08-02 09:00 KST",
+  "quality": "GOOD",
+  "marketState": "WATCH / PRE_BLOCK",
+  "observationNeed": "보통",
+  "briefing": "수동 입력 패킷 예시입니다.",
+  "cards": [
+    {
+      "title": "FORCE",
+      "state": "WAIT",
+      "tone": "watch",
+      "rows": [
+        [
+          "TF",
+          "4H",
+          "info"
+        ],
+        [
+          "SELF ROLE",
+          "SUPPORT",
+          "good"
+        ],
+        [
+          "NEXT HINT",
+          "NONE",
+          ""
+        ],
+        [
+          "MODE",
+          "WAIT",
+          "watch"
+        ],
+        [
+          "EC",
+          "100",
+          "info"
+        ],
+        [
+          "LAYER",
+          "FORCE",
+          "info"
+        ]
+      ]
+    },
+    {
+      "title": "STRUCTURE",
+      "state": "RECOVERY_FAIL",
+      "tone": "danger",
+      "rows": [
+        [
+          "TF",
+          "4H",
+          "info"
+        ],
+        [
+          "SELF ROLE",
+          "SUPPORT",
+          "good"
+        ],
+        [
+          "NEXT HINT",
+          "NONE",
+          ""
+        ],
+        [
+          "MODE",
+          "RECOVERY_FAIL",
+          "danger"
+        ],
+        [
+          "EC",
+          "230",
+          "warn"
+        ],
+        [
+          "LAYER",
+          "STRUCTURE",
+          "info"
+        ]
+      ]
+    },
+    {
+      "title": "MAAT",
+      "state": "WATCH",
+      "tone": "watch",
+      "rows": [
+        [
+          "FINAL",
+          "RW S42 L25 W4",
+          "info"
+        ],
+        [
+          "MODE",
+          "WATCH",
+          "watch"
+        ],
+        [
+          "PHASE",
+          "PRE_BLOCK",
+          "watch"
+        ],
+        [
+          "MAIN TF",
+          "96H",
+          "info"
+        ],
+        [
+          "PARENT",
+          "24H",
+          "info"
+        ],
+        [
+          "NEXT",
+          "07-12 00:00",
+          ""
+        ],
+        [
+          "WINDOW",
+          "+/- 50M",
+          "warn"
+        ],
+        [
+          "COUNT",
+          "16H 43M",
+          "info"
+        ],
+        [
+          "NOISE",
+          "QUIET 48",
+          "good"
+        ],
+        [
+          "VOL",
+          "IDLE",
+          ""
+        ],
+        [
+          "RESULT",
+          "PENDING",
+          "watch"
+        ],
+        [
+          "RESET",
+          "NO",
+          ""
+        ]
+      ]
+    },
+    {
+      "title": "MAAT2 HUB",
+      "state": "ON HOLD",
+      "tone": "watch",
+      "rows": [
+        [
+          "MODE",
+          "CORE",
+          "info"
+        ],
+        [
+          "EXPANSION",
+          "ON HOLD",
+          "watch"
+        ],
+        [
+          "TRUE VOL",
+          "BULL DELTA",
+          "good"
+        ],
+        [
+          "RPC",
+          "NEUTRAL",
+          ""
+        ],
+        [
+          "STRUCT",
+          "BULL M-TIME",
+          "good"
+        ],
+        [
+          "WENUT",
+          "BULL M-TIME",
+          "good"
+        ],
+        [
+          "HERU",
+          "BEAR",
+          "danger"
+        ],
+        [
+          "RISK GATE",
+          "NEUTRAL",
+          ""
+        ],
+        [
+          "FORCE SCORE",
+          "37",
+          "warn"
+        ],
+        [
+          "WINDOW SCORE",
+          "87",
+          "good"
+        ],
+        [
+          "RISK SCORE",
+          "81",
+          "danger"
+        ],
+        [
+          "PHASE",
+          "FORCE_EVENT",
+          "watch"
+        ],
+        [
+          "RESULT",
+          "WAIT / WATCH",
+          "watch"
+        ]
+      ]
+    }
+  ]
+}</textarea>
+<div id="jsonError" class="error"></div>
+<div class="modalactions">
+<button id="importBtn" class="ctl primary">불러오기·저장</button>
+<button id="copyBtn" class="ctl secondary">현재 패킷 복사</button>
+<button id="sampleBtn" class="ctl secondary">예시 다시 넣기</button>
+<button id="resetBtn" class="ctl ghost">샘플로 초기화</button>
+<button id="closeModal2" class="ctl secondary wide">닫기</button>
+</div>
+</div>
 </div>
 <div id="toast" class="toast"></div>
+
 <script>
-const DATA={"meta": {"mode": "SAMPLE", "symbol": "OKX:BTCUSDT.P", "timeframes": ["1H", "2H", "4H", "6H", "8H", "10H", "12H", "14H", "16H", "18H", "20H", "22H", "24H"]}, "frames": {"1H": {"measuredAt": "2026-08-02 08:00 KST", "quality": "SAMPLE", "marketState": "QUIET", "observationNeed": "낮음", "briefing": "1H 화면 동작 확인용 샘플입니다. 실제 TradingView 계산값이 아닙니다.", "cards": [{"title": "FORCE", "state": "WATCH", "tone": "watch", "rows": [["TF", "1H", "info"], ["SELF ROLE", "SUPPORT", "good"], ["NEXT HINT", "CHECK", "watch"], ["MODE", "QUIET", "watch"], ["EC", "74", "info"], ["LAYER", "FORCE", "info"]]}, {"title": "STRUCTURE", "state": "HOLD", "tone": "good", "rows": [["TF", "1H", "info"], ["SELF ROLE", "SUPPORT", "good"], ["NEXT HINT", "NONE", ""], ["MODE", "STRUCT_HOLD", "good"], ["EC", "157", "warn"], ["LAYER", "STRUCTURE", "info"]]}, {"title": "MAAT", "state": "QUIET", "tone": "watch", "rows": [["FINAL", "RW S41 L21 W1", "info"], ["MODE", "QUIET", "watch"], ["PHASE", "WAIT", "watch"], ["MAIN TF", "1H", "info"], ["PARENT", "2H", "info"], ["WINDOW", "CLOSED", ""], ["NOISE", "QUIET", "good"], ["RESULT", "PENDING", "watch"]]}, {"title": "MAAT2 HUB", "state": "SAMPLE", "tone": "info", "rows": [["MODE", "CORE", "info"], ["RPC", "NEUTRAL", ""], ["STRUCT", "HOLD", "good"], ["TRUE VOL", "BULL DELTA", "good"], ["FORCE SCORE", "33", "warn"], ["WINDOW SCORE", "45", "good"], ["RISK SCORE", "39", "warn"], ["RESULT", "WAIT / WATCH", "watch"]]}]}, "2H": {"measuredAt": "2026-08-02 08:00 KST", "quality": "SAMPLE", "marketState": "WATCH", "observationNeed": "보통", "briefing": "2H 화면 동작 확인용 샘플입니다. 실제 TradingView 계산값이 아닙니다.", "cards": [{"title": "FORCE", "state": "WATCH", "tone": "watch", "rows": [["TF", "2H", "info"], ["SELF ROLE", "SUPPORT", "good"], ["NEXT HINT", "NONE", ""], ["MODE", "WATCH", "watch"], ["EC", "78", "info"], ["LAYER", "FORCE", "info"]]}, {"title": "STRUCTURE", "state": "HOLD", "tone": "good", "rows": [["TF", "2H", "info"], ["SELF ROLE", "SUPPORT", "good"], ["NEXT HINT", "NONE", ""], ["MODE", "STRUCT_HOLD", "good"], ["EC", "164", "warn"], ["LAYER", "STRUCTURE", "info"]]}, {"title": "MAAT", "state": "WATCH", "tone": "watch", "rows": [["FINAL", "RW S42 L22 W2", "info"], ["MODE", "WATCH", "watch"], ["PHASE", "PRE_BLOCK", "watch"], ["MAIN TF", "2H", "info"], ["PARENT", "4H", "info"], ["WINDOW", "+/- 50M", "warn"], ["NOISE", "QUIET", "good"], ["RESULT", "PENDING", "watch"]]}, {"title": "MAAT2 HUB", "state": "SAMPLE", "tone": "info", "rows": [["MODE", "CORE", "info"], ["RPC", "NEUTRAL", ""], ["STRUCT", "HOLD", "good"], ["TRUE VOL", "BULL DELTA", "good"], ["FORCE SCORE", "36", "warn"], ["WINDOW SCORE", "50", "good"], ["RISK SCORE", "43", "warn"], ["RESULT", "WAIT / WATCH", "watch"]]}]}, "4H": {"measuredAt": "2026-08-02 08:00 KST", "quality": "GOOD · SAMPLE", "marketState": "WATCH / PRE_BLOCK", "observationNeed": "보통", "briefing": "4H 표 구조 검증용 샘플입니다. FORCE는 대기, STRUCTURE는 회복 실패 관찰, MAAT는 PRE_BLOCK 상태로 표시합니다.", "cards": [{"title": "FORCE", "state": "WAIT", "tone": "watch", "rows": [["TF", "4H", "info"], ["SELF ROLE", "SUPPORT", "good"], ["NEXT HINT", "NONE", ""], ["MODE", "WAIT", "watch"], ["EC", "100", "info"], ["LAYER", "FORCE", "info"]]}, {"title": "STRUCTURE", "state": "RECOVERY_FAIL", "tone": "danger", "rows": [["TF", "4H", "info"], ["SELF ROLE", "SUPPORT", "good"], ["NEXT HINT", "NONE", ""], ["MODE", "RECOVERY_FAIL", "danger"], ["EC", "230", "warn"], ["LAYER", "STRUCTURE", "info"]]}, {"title": "MAAT", "state": "WATCH", "tone": "watch", "rows": [["FINAL", "RW S42 L25 W4", "info"], ["MODE", "WATCH", "watch"], ["PHASE", "PRE_BLOCK", "watch"], ["MAIN TF", "96H", "info"], ["PARENT", "24H", "info"], ["NEXT", "07-12 00:00", ""], ["WINDOW", "+/- 50M", "warn"], ["NOISE", "QUIET 48", "good"], ["RESULT", "PENDING", "watch"]]}, {"title": "MAAT2 HUB", "state": "ON HOLD", "tone": "watch", "rows": [["MODE", "CORE", "info"], ["EXPANSION", "ON HOLD", "watch"], ["RPC", "NEUTRAL", ""], ["STRUCT", "BULL M-TIME", "good"], ["TRUE VOL", "BULL DELTA", "good"], ["FORCE SCORE", "37", "warn"], ["WINDOW SCORE", "87", "good"], ["RISK SCORE", "81", "warn"], ["RESULT", "WAIT / WATCH", "watch"]]}]}, "6H": {"measuredAt": "2026-08-02 08:00 KST", "quality": "SAMPLE", "marketState": "NO_ENERGY", "observationNeed": "낮음", "briefing": "6H 화면 동작 확인용 샘플입니다. 실제 TradingView 계산값이 아닙니다.", "cards": [{"title": "FORCE", "state": "WATCH", "tone": "watch", "rows": [["TF", "6H", "info"], ["SELF ROLE", "SUPPORT", "good"], ["NEXT HINT", "NONE", ""], ["MODE", "NO_ENERGY", "watch"], ["EC", "86", "info"], ["LAYER", "FORCE", "info"]]}, {"title": "STRUCTURE", "state": "HOLD", "tone": "good", "rows": [["TF", "6H", "info"], ["SELF ROLE", "SUPPORT", "good"], ["NEXT HINT", "NONE", ""], ["MODE", "STRUCT_HOLD", "good"], ["EC", "178", "warn"], ["LAYER", "STRUCTURE", "info"]]}, {"title": "MAAT", "state": "NO_ENERGY", "tone": "watch", "rows": [["FINAL", "RW S44 L24 W4", "info"], ["MODE", "NO_ENERGY", "watch"], ["PHASE", "PRE_BLOCK", "watch"], ["MAIN TF", "6H", "info"], ["PARENT", "8H", "info"], ["WINDOW", "+/- 50M", "warn"], ["NOISE", "QUIET", "good"], ["RESULT", "PENDING", "watch"]]}, {"title": "MAAT2 HUB", "state": "SAMPLE", "tone": "info", "rows": [["MODE", "CORE", "info"], ["RPC", "NEUTRAL", ""], ["STRUCT", "HOLD", "good"], ["TRUE VOL", "BULL DELTA", "good"], ["FORCE SCORE", "42", "warn"], ["WINDOW SCORE", "60", "good"], ["RISK SCORE", "51", "warn"], ["RESULT", "WAIT / WATCH", "watch"]]}]}, "8H": {"measuredAt": "2026-08-02 08:00 KST", "quality": "SAMPLE", "marketState": "CONFLICT", "observationNeed": "보통", "briefing": "8H 화면 동작 확인용 샘플입니다. 실제 TradingView 계산값이 아닙니다.", "cards": [{"title": "FORCE", "state": "WATCH", "tone": "watch", "rows": [["TF", "8H", "info"], ["SELF ROLE", "SUPPORT", "good"], ["NEXT HINT", "CHECK", "watch"], ["MODE", "CONFLICT", "danger"], ["EC", "90", "info"], ["LAYER", "FORCE", "info"]]}, {"title": "STRUCTURE", "state": "HOLD", "tone": "good", "rows": [["TF", "8H", "info"], ["SELF ROLE", "SUPPORT", "good"], ["NEXT HINT", "NONE", ""], ["MODE", "STRUCT_HOLD", "good"], ["EC", "185", "warn"], ["LAYER", "STRUCTURE", "info"]]}, {"title": "MAAT", "state": "CONFLICT", "tone": "danger", "rows": [["FINAL", "RW S45 L25 W5", "info"], ["MODE", "CONFLICT", "danger"], ["PHASE", "WAIT", "watch"], ["MAIN TF", "8H", "info"], ["PARENT", "10H", "info"], ["WINDOW", "CLOSED", ""], ["NOISE", "QUIET", "good"], ["RESULT", "PENDING", "watch"]]}, {"title": "MAAT2 HUB", "state": "SAMPLE", "tone": "info", "rows": [["MODE", "CORE", "info"], ["RPC", "NEUTRAL", ""], ["STRUCT", "HOLD", "good"], ["TRUE VOL", "BULL DELTA", "good"], ["FORCE SCORE", "45", "warn"], ["WINDOW SCORE", "65", "good"], ["RISK SCORE", "55", "warn"], ["RESULT", "WAIT / WATCH", "watch"]]}]}, "10H": {"measuredAt": "2026-08-02 08:00 KST", "quality": "SAMPLE", "marketState": "QUIET", "observationNeed": "높음", "briefing": "10H 화면 동작 확인용 샘플입니다. 실제 TradingView 계산값이 아닙니다.", "cards": [{"title": "FORCE", "state": "WATCH", "tone": "watch", "rows": [["TF", "10H", "info"], ["SELF ROLE", "RESIST", "danger"], ["NEXT HINT", "NONE", ""], ["MODE", "QUIET", "watch"], ["EC", "94", "info"], ["LAYER", "FORCE", "info"]]}, {"title": "STRUCTURE", "state": "HOLD", "tone": "good", "rows": [["TF", "10H", "info"], ["SELF ROLE", "SUPPORT", "good"], ["NEXT HINT", "NONE", ""], ["MODE", "STRUCT_HOLD", "good"], ["EC", "192", "warn"], ["LAYER", "STRUCTURE", "info"]]}, {"title": "MAAT", "state": "QUIET", "tone": "watch", "rows": [["FINAL", "RW S46 L26 W6", "info"], ["MODE", "QUIET", "watch"], ["PHASE", "PRE_BLOCK", "watch"], ["MAIN TF", "10H", "info"], ["PARENT", "12H", "info"], ["WINDOW", "+/- 50M", "warn"], ["NOISE", "NOISY", "danger"], ["RESULT", "PENDING", "watch"]]}, {"title": "MAAT2 HUB", "state": "SAMPLE", "tone": "info", "rows": [["MODE", "CORE", "info"], ["RPC", "NEUTRAL", ""], ["STRUCT", "HOLD", "good"], ["TRUE VOL", "BULL DELTA", "good"], ["FORCE SCORE", "48", "warn"], ["WINDOW SCORE", "70", "good"], ["RISK SCORE", "59", "warn"], ["RESULT", "WAIT / WATCH", "watch"]]}]}, "12H": {"measuredAt": "2026-08-02 08:00 KST", "quality": "SAMPLE", "marketState": "WATCH", "observationNeed": "낮음", "briefing": "12H 화면 동작 확인용 샘플입니다. 실제 TradingView 계산값이 아닙니다.", "cards": [{"title": "FORCE", "state": "WATCH", "tone": "watch", "rows": [["TF", "12H", "info"], ["SELF ROLE", "SUPPORT", "good"], ["NEXT HINT", "CHECK", "watch"], ["MODE", "WATCH", "watch"], ["EC", "98", "info"], ["LAYER", "FORCE", "info"]]}, {"title": "STRUCTURE", "state": "HOLD", "tone": "good", "rows": [["TF", "12H", "info"], ["SELF ROLE", "SUPPORT", "good"], ["NEXT HINT", "NONE", ""], ["MODE", "STRUCT_HOLD", "good"], ["EC", "199", "warn"], ["LAYER", "STRUCTURE", "info"]]}, {"title": "MAAT", "state": "WATCH", "tone": "watch", "rows": [["FINAL", "RW S47 L27 W7", "info"], ["MODE", "WATCH", "watch"], ["PHASE", "WAIT", "watch"], ["MAIN TF", "12H", "info"], ["PARENT", "14H", "info"], ["WINDOW", "CLOSED", ""], ["NOISE", "QUIET", "good"], ["RESULT", "PENDING", "watch"]]}, {"title": "MAAT2 HUB", "state": "SAMPLE", "tone": "info", "rows": [["MODE", "CORE", "info"], ["RPC", "NEUTRAL", ""], ["STRUCT", "HOLD", "good"], ["TRUE VOL", "BULL DELTA", "good"], ["FORCE SCORE", "51", "warn"], ["WINDOW SCORE", "75", "good"], ["RISK SCORE", "63", "warn"], ["RESULT", "WAIT / WATCH", "watch"]]}]}, "14H": {"measuredAt": "2026-08-02 08:00 KST", "quality": "SAMPLE", "marketState": "WINDOW", "observationNeed": "보통", "briefing": "14H 화면 동작 확인용 샘플입니다. 실제 TradingView 계산값이 아닙니다.", "cards": [{"title": "FORCE", "state": "WATCH", "tone": "watch", "rows": [["TF", "14H", "info"], ["SELF ROLE", "SUPPORT", "good"], ["NEXT HINT", "NONE", ""], ["MODE", "WINDOW", "watch"], ["EC", "102", "info"], ["LAYER", "FORCE", "info"]]}, {"title": "STRUCTURE", "state": "HOLD", "tone": "good", "rows": [["TF", "14H", "info"], ["SELF ROLE", "SUPPORT", "good"], ["NEXT HINT", "NONE", ""], ["MODE", "STRUCT_HOLD", "good"], ["EC", "206", "warn"], ["LAYER", "STRUCTURE", "info"]]}, {"title": "MAAT", "state": "WINDOW", "tone": "watch", "rows": [["FINAL", "RW S48 L28 W8", "info"], ["MODE", "WINDOW", "watch"], ["PHASE", "PRE_BLOCK", "watch"], ["MAIN TF", "14H", "info"], ["PARENT", "16H", "info"], ["WINDOW", "+/- 50M", "warn"], ["NOISE", "QUIET", "good"], ["RESULT", "PENDING", "watch"]]}, {"title": "MAAT2 HUB", "state": "SAMPLE", "tone": "info", "rows": [["MODE", "CORE", "info"], ["RPC", "NEUTRAL", ""], ["STRUCT", "HOLD", "good"], ["TRUE VOL", "BULL DELTA", "good"], ["FORCE SCORE", "54", "warn"], ["WINDOW SCORE", "80", "good"], ["RISK SCORE", "67", "warn"], ["RESULT", "WAIT / WATCH", "watch"]]}]}, "16H": {"measuredAt": "2026-08-02 08:00 KST", "quality": "SAMPLE", "marketState": "NO_ENERGY", "observationNeed": "높음", "briefing": "16H 화면 동작 확인용 샘플입니다. 실제 TradingView 계산값이 아닙니다.", "cards": [{"title": "FORCE", "state": "WATCH", "tone": "watch", "rows": [["TF", "16H", "info"], ["SELF ROLE", "RESIST", "danger"], ["NEXT HINT", "CHECK", "watch"], ["MODE", "NO_ENERGY", "watch"], ["EC", "106", "info"], ["LAYER", "FORCE", "info"]]}, {"title": "STRUCTURE", "state": "HOLD", "tone": "good", "rows": [["TF", "16H", "info"], ["SELF ROLE", "SUPPORT", "good"], ["NEXT HINT", "NONE", ""], ["MODE", "STRUCT_HOLD", "good"], ["EC", "213", "warn"], ["LAYER", "STRUCTURE", "info"]]}, {"title": "MAAT", "state": "NO_ENERGY", "tone": "watch", "rows": [["FINAL", "RW S49 L29 W0", "info"], ["MODE", "NO_ENERGY", "watch"], ["PHASE", "WAIT", "watch"], ["MAIN TF", "16H", "info"], ["PARENT", "18H", "info"], ["WINDOW", "CLOSED", ""], ["NOISE", "NOISY", "danger"], ["RESULT", "PENDING", "watch"]]}, {"title": "MAAT2 HUB", "state": "SAMPLE", "tone": "info", "rows": [["MODE", "CORE", "info"], ["RPC", "NEUTRAL", ""], ["STRUCT", "HOLD", "good"], ["TRUE VOL", "BULL DELTA", "good"], ["FORCE SCORE", "57", "warn"], ["WINDOW SCORE", "85", "good"], ["RISK SCORE", "71", "warn"], ["RESULT", "WAIT / WATCH", "watch"]]}]}, "18H": {"measuredAt": "2026-08-02 08:00 KST", "quality": "SAMPLE", "marketState": "CONFLICT", "observationNeed": "낮음", "briefing": "18H 화면 동작 확인용 샘플입니다. 실제 TradingView 계산값이 아닙니다.", "cards": [{"title": "FORCE", "state": "WATCH", "tone": "watch", "rows": [["TF", "18H", "info"], ["SELF ROLE", "SUPPORT", "good"], ["NEXT HINT", "NONE", ""], ["MODE", "CONFLICT", "danger"], ["EC", "110", "info"], ["LAYER", "FORCE", "info"]]}, {"title": "STRUCTURE", "state": "HOLD", "tone": "good", "rows": [["TF", "18H", "info"], ["SELF ROLE", "SUPPORT", "good"], ["NEXT HINT", "NONE", ""], ["MODE", "STRUCT_HOLD", "good"], ["EC", "220", "warn"], ["LAYER", "STRUCTURE", "info"]]}, {"title": "MAAT", "state": "CONFLICT", "tone": "danger", "rows": [["FINAL", "RW S50 L30 W1", "info"], ["MODE", "CONFLICT", "danger"], ["PHASE", "PRE_BLOCK", "watch"], ["MAIN TF", "18H", "info"], ["PARENT", "20H", "info"], ["WINDOW", "+/- 50M", "warn"], ["NOISE", "QUIET", "good"], ["RESULT", "PENDING", "watch"]]}, {"title": "MAAT2 HUB", "state": "SAMPLE", "tone": "info", "rows": [["MODE", "CORE", "info"], ["RPC", "NEUTRAL", ""], ["STRUCT", "HOLD", "good"], ["TRUE VOL", "BULL DELTA", "good"], ["FORCE SCORE", "60", "warn"], ["WINDOW SCORE", "90", "good"], ["RISK SCORE", "75", "warn"], ["RESULT", "WAIT / WATCH", "watch"]]}]}, "20H": {"measuredAt": "2026-08-02 08:00 KST", "quality": "SAMPLE", "marketState": "QUIET", "observationNeed": "보통", "briefing": "20H 화면 동작 확인용 샘플입니다. 실제 TradingView 계산값이 아닙니다.", "cards": [{"title": "FORCE", "state": "WATCH", "tone": "watch", "rows": [["TF", "20H", "info"], ["SELF ROLE", "SUPPORT", "good"], ["NEXT HINT", "CHECK", "watch"], ["MODE", "QUIET", "watch"], ["EC", "114", "info"], ["LAYER", "FORCE", "info"]]}, {"title": "STRUCTURE", "state": "HOLD", "tone": "good", "rows": [["TF", "20H", "info"], ["SELF ROLE", "SUPPORT", "good"], ["NEXT HINT", "NONE", ""], ["MODE", "STRUCT_HOLD", "good"], ["EC", "227", "warn"], ["LAYER", "STRUCTURE", "info"]]}, {"title": "MAAT", "state": "QUIET", "tone": "watch", "rows": [["FINAL", "RW S51 L31 W2", "info"], ["MODE", "QUIET", "watch"], ["PHASE", "WAIT", "watch"], ["MAIN TF", "20H", "info"], ["PARENT", "22H", "info"], ["WINDOW", "CLOSED", ""], ["NOISE", "QUIET", "good"], ["RESULT", "PENDING", "watch"]]}, {"title": "MAAT2 HUB", "state": "SAMPLE", "tone": "info", "rows": [["MODE", "CORE", "info"], ["RPC", "NEUTRAL", ""], ["STRUCT", "HOLD", "good"], ["TRUE VOL", "BULL DELTA", "good"], ["FORCE SCORE", "63", "warn"], ["WINDOW SCORE", "40", "good"], ["RISK SCORE", "79", "warn"], ["RESULT", "WAIT / WATCH", "watch"]]}]}, "22H": {"measuredAt": "2026-08-02 08:00 KST", "quality": "SAMPLE", "marketState": "WATCH", "observationNeed": "높음", "briefing": "22H 화면 동작 확인용 샘플입니다. 실제 TradingView 계산값이 아닙니다.", "cards": [{"title": "FORCE", "state": "WATCH", "tone": "watch", "rows": [["TF", "22H", "info"], ["SELF ROLE", "RESIST", "danger"], ["NEXT HINT", "NONE", ""], ["MODE", "WATCH", "watch"], ["EC", "118", "info"], ["LAYER", "FORCE", "info"]]}, {"title": "STRUCTURE", "state": "HOLD", "tone": "good", "rows": [["TF", "22H", "info"], ["SELF ROLE", "SUPPORT", "good"], ["NEXT HINT", "NONE", ""], ["MODE", "STRUCT_HOLD", "good"], ["EC", "234", "warn"], ["LAYER", "STRUCTURE", "info"]]}, {"title": "MAAT", "state": "WATCH", "tone": "watch", "rows": [["FINAL", "RW S52 L32 W3", "info"], ["MODE", "WATCH", "watch"], ["PHASE", "PRE_BLOCK", "watch"], ["MAIN TF", "22H", "info"], ["PARENT", "24H", "info"], ["WINDOW", "+/- 50M", "warn"], ["NOISE", "NOISY", "danger"], ["RESULT", "PENDING", "watch"]]}, {"title": "MAAT2 HUB", "state": "SAMPLE", "tone": "info", "rows": [["MODE", "CORE", "info"], ["RPC", "NEUTRAL", ""], ["STRUCT", "HOLD", "good"], ["TRUE VOL", "BULL DELTA", "good"], ["FORCE SCORE", "66", "warn"], ["WINDOW SCORE", "45", "good"], ["RISK SCORE", "83", "warn"], ["RESULT", "WAIT / WATCH", "watch"]]}]}, "24H": {"measuredAt": "2026-08-02 08:00 KST", "quality": "SAMPLE", "marketState": "WINDOW", "observationNeed": "낮음", "briefing": "24H 화면 동작 확인용 샘플입니다. 실제 TradingView 계산값이 아닙니다.", "cards": [{"title": "FORCE", "state": "WATCH", "tone": "watch", "rows": [["TF", "24H", "info"], ["SELF ROLE", "SUPPORT", "good"], ["NEXT HINT", "CHECK", "watch"], ["MODE", "WINDOW", "watch"], ["EC", "122", "info"], ["LAYER", "FORCE", "info"]]}, {"title": "STRUCTURE", "state": "HOLD", "tone": "good", "rows": [["TF", "24H", "info"], ["SELF ROLE", "SUPPORT", "good"], ["NEXT HINT", "NONE", ""], ["MODE", "STRUCT_HOLD", "good"], ["EC", "241", "warn"], ["LAYER", "STRUCTURE", "info"]]}, {"title": "MAAT", "state": "WINDOW", "tone": "watch", "rows": [["FINAL", "RW S53 L33 W4", "info"], ["MODE", "WINDOW", "watch"], ["PHASE", "WAIT", "watch"], ["MAIN TF", "24H", "info"], ["PARENT", "26H", "info"], ["WINDOW", "CLOSED", ""], ["NOISE", "QUIET", "good"], ["RESULT", "PENDING", "watch"]]}, {"title": "MAAT2 HUB", "state": "SAMPLE", "tone": "info", "rows": [["MODE", "CORE", "info"], ["RPC", "NEUTRAL", ""], ["STRUCT", "HOLD", "good"], ["TRUE VOL", "BULL DELTA", "good"], ["FORCE SCORE", "69", "warn"], ["WINDOW SCORE", "50", "good"], ["RISK SCORE", "87", "warn"], ["RESULT", "WAIT / WATCH", "watch"]]}]}}};
+const DEFAULT_DATA={"meta": {"version": "0.3", "source": "SAMPLE", "symbol": "OKX:BTCUSDT.P", "timeframes": ["1H", "2H", "4H", "6H", "8H", "10H", "12H", "14H", "16H", "18H", "20H", "22H", "24H"], "updatedAt": "2026-08-02 08:00 KST"}, "frames": {"1H": {"measuredAt": "2026-08-02 08:00 KST", "quality": "SAMPLE", "marketState": "QUIET", "observationNeed": "낮음", "briefing": "1H 화면 동작 확인용 샘플입니다. 실제 TradingView 계산값이 아닙니다.", "cards": [{"title": "FORCE", "state": "WATCH", "tone": "watch", "rows": [["TF", "1H", "info"], ["SELF ROLE", "SUPPORT", "good"], ["NEXT HINT", "CHECK", "watch"], ["MODE", "QUIET", "watch"], ["EC", "74", "info"], ["LAYER", "FORCE", "info"]]}, {"title": "STRUCTURE", "state": "HOLD", "tone": "good", "rows": [["TF", "1H", "info"], ["SELF ROLE", "SUPPORT", "good"], ["NEXT HINT", "NONE", ""], ["MODE", "STRUCT_HOLD", "good"], ["EC", "157", "warn"], ["LAYER", "STRUCTURE", "info"]]}, {"title": "MAAT", "state": "QUIET", "tone": "watch", "rows": [["FINAL", "RW S41 L21 W1", "info"], ["MODE", "QUIET", "watch"], ["PHASE", "WAIT", "watch"], ["MAIN TF", "1H", "info"], ["PARENT", "2H", "info"], ["WINDOW", "CLOSED", ""], ["NOISE", "QUIET", "good"], ["RESULT", "PENDING", "watch"]]}, {"title": "MAAT2 HUB", "state": "SAMPLE", "tone": "info", "rows": [["MODE", "CORE", "info"], ["RPC", "NEUTRAL", ""], ["STRUCT", "HOLD", "good"], ["TRUE VOL", "BULL DELTA", "good"], ["FORCE SCORE", "33", "warn"], ["WINDOW SCORE", "45", "good"], ["RISK SCORE", "39", "warn"], ["RESULT", "WAIT / WATCH", "watch"]]}]}, "2H": {"measuredAt": "2026-08-02 08:00 KST", "quality": "SAMPLE", "marketState": "WATCH", "observationNeed": "보통", "briefing": "2H 화면 동작 확인용 샘플입니다. 실제 TradingView 계산값이 아닙니다.", "cards": [{"title": "FORCE", "state": "WATCH", "tone": "watch", "rows": [["TF", "2H", "info"], ["SELF ROLE", "SUPPORT", "good"], ["NEXT HINT", "NONE", ""], ["MODE", "WATCH", "watch"], ["EC", "78", "info"], ["LAYER", "FORCE", "info"]]}, {"title": "STRUCTURE", "state": "HOLD", "tone": "good", "rows": [["TF", "2H", "info"], ["SELF ROLE", "SUPPORT", "good"], ["NEXT HINT", "NONE", ""], ["MODE", "STRUCT_HOLD", "good"], ["EC", "164", "warn"], ["LAYER", "STRUCTURE", "info"]]}, {"title": "MAAT", "state": "WATCH", "tone": "watch", "rows": [["FINAL", "RW S42 L22 W2", "info"], ["MODE", "WATCH", "watch"], ["PHASE", "PRE_BLOCK", "watch"], ["MAIN TF", "2H", "info"], ["PARENT", "4H", "info"], ["WINDOW", "+/- 50M", "warn"], ["NOISE", "QUIET", "good"], ["RESULT", "PENDING", "watch"]]}, {"title": "MAAT2 HUB", "state": "SAMPLE", "tone": "info", "rows": [["MODE", "CORE", "info"], ["RPC", "NEUTRAL", ""], ["STRUCT", "HOLD", "good"], ["TRUE VOL", "BULL DELTA", "good"], ["FORCE SCORE", "36", "warn"], ["WINDOW SCORE", "50", "good"], ["RISK SCORE", "43", "warn"], ["RESULT", "WAIT / WATCH", "watch"]]}]}, "4H": {"measuredAt": "2026-08-02 08:00 KST", "quality": "GOOD · SAMPLE", "marketState": "WATCH / PRE_BLOCK", "observationNeed": "보통", "briefing": "4H 표 구조 검증용 샘플입니다. FORCE는 대기, STRUCTURE는 회복 실패 관찰, MAAT는 PRE_BLOCK 상태로 표시합니다.", "cards": [{"title": "FORCE", "state": "WAIT", "tone": "watch", "rows": [["TF", "4H", "info"], ["SELF ROLE", "SUPPORT", "good"], ["NEXT HINT", "NONE", ""], ["MODE", "WAIT", "watch"], ["EC", "100", "info"], ["LAYER", "FORCE", "info"]]}, {"title": "STRUCTURE", "state": "RECOVERY_FAIL", "tone": "danger", "rows": [["TF", "4H", "info"], ["SELF ROLE", "SUPPORT", "good"], ["NEXT HINT", "NONE", ""], ["MODE", "RECOVERY_FAIL", "danger"], ["EC", "230", "warn"], ["LAYER", "STRUCTURE", "info"]]}, {"title": "MAAT", "state": "WATCH", "tone": "watch", "rows": [["FINAL", "RW S42 L25 W4", "info"], ["MODE", "WATCH", "watch"], ["PHASE", "PRE_BLOCK", "watch"], ["MAIN TF", "96H", "info"], ["PARENT", "24H", "info"], ["NEXT", "07-12 00:00", ""], ["WINDOW", "+/- 50M", "warn"], ["COUNT", "16H 43M", "info"], ["NOISE", "QUIET 48", "good"], ["VOL", "IDLE", ""], ["RESULT", "PENDING", "watch"], ["RESET", "NO", ""]]}, {"title": "MAAT2 HUB", "state": "ON HOLD", "tone": "watch", "rows": [["MODE", "CORE", "info"], ["EXPANSION", "ON HOLD", "watch"], ["TRUE VOL", "BULL DELTA", "good"], ["RPC", "NEUTRAL", ""], ["STRUCT", "BULL M-TIME", "good"], ["WENUT", "BULL M-TIME", "good"], ["HERU", "BEAR", "danger"], ["RISK GATE", "NEUTRAL", ""], ["FORCE SCORE", "37", "warn"], ["WINDOW SCORE", "87", "good"], ["RISK SCORE", "81", "danger"], ["PHASE", "FORCE_EVENT", "watch"], ["RESULT", "WAIT / WATCH", "watch"]]}]}, "6H": {"measuredAt": "2026-08-02 08:00 KST", "quality": "SAMPLE", "marketState": "NO_ENERGY", "observationNeed": "낮음", "briefing": "6H 화면 동작 확인용 샘플입니다. 실제 TradingView 계산값이 아닙니다.", "cards": [{"title": "FORCE", "state": "WATCH", "tone": "watch", "rows": [["TF", "6H", "info"], ["SELF ROLE", "SUPPORT", "good"], ["NEXT HINT", "NONE", ""], ["MODE", "NO_ENERGY", "watch"], ["EC", "86", "info"], ["LAYER", "FORCE", "info"]]}, {"title": "STRUCTURE", "state": "HOLD", "tone": "good", "rows": [["TF", "6H", "info"], ["SELF ROLE", "SUPPORT", "good"], ["NEXT HINT", "NONE", ""], ["MODE", "STRUCT_HOLD", "good"], ["EC", "178", "warn"], ["LAYER", "STRUCTURE", "info"]]}, {"title": "MAAT", "state": "NO_ENERGY", "tone": "watch", "rows": [["FINAL", "RW S44 L24 W4", "info"], ["MODE", "NO_ENERGY", "watch"], ["PHASE", "PRE_BLOCK", "watch"], ["MAIN TF", "6H", "info"], ["PARENT", "8H", "info"], ["WINDOW", "+/- 50M", "warn"], ["NOISE", "QUIET", "good"], ["RESULT", "PENDING", "watch"]]}, {"title": "MAAT2 HUB", "state": "SAMPLE", "tone": "info", "rows": [["MODE", "CORE", "info"], ["RPC", "NEUTRAL", ""], ["STRUCT", "HOLD", "good"], ["TRUE VOL", "BULL DELTA", "good"], ["FORCE SCORE", "42", "warn"], ["WINDOW SCORE", "60", "good"], ["RISK SCORE", "51", "warn"], ["RESULT", "WAIT / WATCH", "watch"]]}]}, "8H": {"measuredAt": "2026-08-02 08:00 KST", "quality": "SAMPLE", "marketState": "CONFLICT", "observationNeed": "보통", "briefing": "8H 화면 동작 확인용 샘플입니다. 실제 TradingView 계산값이 아닙니다.", "cards": [{"title": "FORCE", "state": "WATCH", "tone": "watch", "rows": [["TF", "8H", "info"], ["SELF ROLE", "SUPPORT", "good"], ["NEXT HINT", "CHECK", "watch"], ["MODE", "CONFLICT", "danger"], ["EC", "90", "info"], ["LAYER", "FORCE", "info"]]}, {"title": "STRUCTURE", "state": "HOLD", "tone": "good", "rows": [["TF", "8H", "info"], ["SELF ROLE", "SUPPORT", "good"], ["NEXT HINT", "NONE", ""], ["MODE", "STRUCT_HOLD", "good"], ["EC", "185", "warn"], ["LAYER", "STRUCTURE", "info"]]}, {"title": "MAAT", "state": "CONFLICT", "tone": "danger", "rows": [["FINAL", "RW S45 L25 W5", "info"], ["MODE", "CONFLICT", "danger"], ["PHASE", "WAIT", "watch"], ["MAIN TF", "8H", "info"], ["PARENT", "10H", "info"], ["WINDOW", "CLOSED", ""], ["NOISE", "QUIET", "good"], ["RESULT", "PENDING", "watch"]]}, {"title": "MAAT2 HUB", "state": "SAMPLE", "tone": "info", "rows": [["MODE", "CORE", "info"], ["RPC", "NEUTRAL", ""], ["STRUCT", "HOLD", "good"], ["TRUE VOL", "BULL DELTA", "good"], ["FORCE SCORE", "45", "warn"], ["WINDOW SCORE", "65", "good"], ["RISK SCORE", "55", "warn"], ["RESULT", "WAIT / WATCH", "watch"]]}]}, "10H": {"measuredAt": "2026-08-02 08:00 KST", "quality": "SAMPLE", "marketState": "QUIET", "observationNeed": "높음", "briefing": "10H 화면 동작 확인용 샘플입니다. 실제 TradingView 계산값이 아닙니다.", "cards": [{"title": "FORCE", "state": "WATCH", "tone": "watch", "rows": [["TF", "10H", "info"], ["SELF ROLE", "RESIST", "danger"], ["NEXT HINT", "NONE", ""], ["MODE", "QUIET", "watch"], ["EC", "94", "info"], ["LAYER", "FORCE", "info"]]}, {"title": "STRUCTURE", "state": "HOLD", "tone": "good", "rows": [["TF", "10H", "info"], ["SELF ROLE", "SUPPORT", "good"], ["NEXT HINT", "NONE", ""], ["MODE", "STRUCT_HOLD", "good"], ["EC", "192", "warn"], ["LAYER", "STRUCTURE", "info"]]}, {"title": "MAAT", "state": "QUIET", "tone": "watch", "rows": [["FINAL", "RW S46 L26 W6", "info"], ["MODE", "QUIET", "watch"], ["PHASE", "PRE_BLOCK", "watch"], ["MAIN TF", "10H", "info"], ["PARENT", "12H", "info"], ["WINDOW", "+/- 50M", "warn"], ["NOISE", "NOISY", "danger"], ["RESULT", "PENDING", "watch"]]}, {"title": "MAAT2 HUB", "state": "SAMPLE", "tone": "info", "rows": [["MODE", "CORE", "info"], ["RPC", "NEUTRAL", ""], ["STRUCT", "HOLD", "good"], ["TRUE VOL", "BULL DELTA", "good"], ["FORCE SCORE", "48", "warn"], ["WINDOW SCORE", "70", "good"], ["RISK SCORE", "59", "warn"], ["RESULT", "WAIT / WATCH", "watch"]]}]}, "12H": {"measuredAt": "2026-08-02 08:00 KST", "quality": "SAMPLE", "marketState": "WATCH", "observationNeed": "낮음", "briefing": "12H 화면 동작 확인용 샘플입니다. 실제 TradingView 계산값이 아닙니다.", "cards": [{"title": "FORCE", "state": "WATCH", "tone": "watch", "rows": [["TF", "12H", "info"], ["SELF ROLE", "SUPPORT", "good"], ["NEXT HINT", "CHECK", "watch"], ["MODE", "WATCH", "watch"], ["EC", "98", "info"], ["LAYER", "FORCE", "info"]]}, {"title": "STRUCTURE", "state": "HOLD", "tone": "good", "rows": [["TF", "12H", "info"], ["SELF ROLE", "SUPPORT", "good"], ["NEXT HINT", "NONE", ""], ["MODE", "STRUCT_HOLD", "good"], ["EC", "199", "warn"], ["LAYER", "STRUCTURE", "info"]]}, {"title": "MAAT", "state": "WATCH", "tone": "watch", "rows": [["FINAL", "RW S47 L27 W7", "info"], ["MODE", "WATCH", "watch"], ["PHASE", "WAIT", "watch"], ["MAIN TF", "12H", "info"], ["PARENT", "14H", "info"], ["WINDOW", "CLOSED", ""], ["NOISE", "QUIET", "good"], ["RESULT", "PENDING", "watch"]]}, {"title": "MAAT2 HUB", "state": "SAMPLE", "tone": "info", "rows": [["MODE", "CORE", "info"], ["RPC", "NEUTRAL", ""], ["STRUCT", "HOLD", "good"], ["TRUE VOL", "BULL DELTA", "good"], ["FORCE SCORE", "51", "warn"], ["WINDOW SCORE", "75", "good"], ["RISK SCORE", "63", "warn"], ["RESULT", "WAIT / WATCH", "watch"]]}]}, "14H": {"measuredAt": "2026-08-02 08:00 KST", "quality": "SAMPLE", "marketState": "WINDOW", "observationNeed": "보통", "briefing": "14H 화면 동작 확인용 샘플입니다. 실제 TradingView 계산값이 아닙니다.", "cards": [{"title": "FORCE", "state": "WATCH", "tone": "watch", "rows": [["TF", "14H", "info"], ["SELF ROLE", "SUPPORT", "good"], ["NEXT HINT", "NONE", ""], ["MODE", "WINDOW", "watch"], ["EC", "102", "info"], ["LAYER", "FORCE", "info"]]}, {"title": "STRUCTURE", "state": "HOLD", "tone": "good", "rows": [["TF", "14H", "info"], ["SELF ROLE", "SUPPORT", "good"], ["NEXT HINT", "NONE", ""], ["MODE", "STRUCT_HOLD", "good"], ["EC", "206", "warn"], ["LAYER", "STRUCTURE", "info"]]}, {"title": "MAAT", "state": "WINDOW", "tone": "watch", "rows": [["FINAL", "RW S48 L28 W8", "info"], ["MODE", "WINDOW", "watch"], ["PHASE", "PRE_BLOCK", "watch"], ["MAIN TF", "14H", "info"], ["PARENT", "16H", "info"], ["WINDOW", "+/- 50M", "warn"], ["NOISE", "QUIET", "good"], ["RESULT", "PENDING", "watch"]]}, {"title": "MAAT2 HUB", "state": "SAMPLE", "tone": "info", "rows": [["MODE", "CORE", "info"], ["RPC", "NEUTRAL", ""], ["STRUCT", "HOLD", "good"], ["TRUE VOL", "BULL DELTA", "good"], ["FORCE SCORE", "54", "warn"], ["WINDOW SCORE", "80", "good"], ["RISK SCORE", "67", "warn"], ["RESULT", "WAIT / WATCH", "watch"]]}]}, "16H": {"measuredAt": "2026-08-02 08:00 KST", "quality": "SAMPLE", "marketState": "NO_ENERGY", "observationNeed": "높음", "briefing": "16H 화면 동작 확인용 샘플입니다. 실제 TradingView 계산값이 아닙니다.", "cards": [{"title": "FORCE", "state": "WATCH", "tone": "watch", "rows": [["TF", "16H", "info"], ["SELF ROLE", "RESIST", "danger"], ["NEXT HINT", "CHECK", "watch"], ["MODE", "NO_ENERGY", "watch"], ["EC", "106", "info"], ["LAYER", "FORCE", "info"]]}, {"title": "STRUCTURE", "state": "HOLD", "tone": "good", "rows": [["TF", "16H", "info"], ["SELF ROLE", "SUPPORT", "good"], ["NEXT HINT", "NONE", ""], ["MODE", "STRUCT_HOLD", "good"], ["EC", "213", "warn"], ["LAYER", "STRUCTURE", "info"]]}, {"title": "MAAT", "state": "NO_ENERGY", "tone": "watch", "rows": [["FINAL", "RW S49 L29 W0", "info"], ["MODE", "NO_ENERGY", "watch"], ["PHASE", "WAIT", "watch"], ["MAIN TF", "16H", "info"], ["PARENT", "18H", "info"], ["WINDOW", "CLOSED", ""], ["NOISE", "NOISY", "danger"], ["RESULT", "PENDING", "watch"]]}, {"title": "MAAT2 HUB", "state": "SAMPLE", "tone": "info", "rows": [["MODE", "CORE", "info"], ["RPC", "NEUTRAL", ""], ["STRUCT", "HOLD", "good"], ["TRUE VOL", "BULL DELTA", "good"], ["FORCE SCORE", "57", "warn"], ["WINDOW SCORE", "85", "good"], ["RISK SCORE", "71", "warn"], ["RESULT", "WAIT / WATCH", "watch"]]}]}, "18H": {"measuredAt": "2026-08-02 08:00 KST", "quality": "SAMPLE", "marketState": "CONFLICT", "observationNeed": "낮음", "briefing": "18H 화면 동작 확인용 샘플입니다. 실제 TradingView 계산값이 아닙니다.", "cards": [{"title": "FORCE", "state": "WATCH", "tone": "watch", "rows": [["TF", "18H", "info"], ["SELF ROLE", "SUPPORT", "good"], ["NEXT HINT", "NONE", ""], ["MODE", "CONFLICT", "danger"], ["EC", "110", "info"], ["LAYER", "FORCE", "info"]]}, {"title": "STRUCTURE", "state": "HOLD", "tone": "good", "rows": [["TF", "18H", "info"], ["SELF ROLE", "SUPPORT", "good"], ["NEXT HINT", "NONE", ""], ["MODE", "STRUCT_HOLD", "good"], ["EC", "220", "warn"], ["LAYER", "STRUCTURE", "info"]]}, {"title": "MAAT", "state": "CONFLICT", "tone": "danger", "rows": [["FINAL", "RW S50 L30 W1", "info"], ["MODE", "CONFLICT", "danger"], ["PHASE", "PRE_BLOCK", "watch"], ["MAIN TF", "18H", "info"], ["PARENT", "20H", "info"], ["WINDOW", "+/- 50M", "warn"], ["NOISE", "QUIET", "good"], ["RESULT", "PENDING", "watch"]]}, {"title": "MAAT2 HUB", "state": "SAMPLE", "tone": "info", "rows": [["MODE", "CORE", "info"], ["RPC", "NEUTRAL", ""], ["STRUCT", "HOLD", "good"], ["TRUE VOL", "BULL DELTA", "good"], ["FORCE SCORE", "60", "warn"], ["WINDOW SCORE", "90", "good"], ["RISK SCORE", "75", "warn"], ["RESULT", "WAIT / WATCH", "watch"]]}]}, "20H": {"measuredAt": "2026-08-02 08:00 KST", "quality": "SAMPLE", "marketState": "QUIET", "observationNeed": "보통", "briefing": "20H 화면 동작 확인용 샘플입니다. 실제 TradingView 계산값이 아닙니다.", "cards": [{"title": "FORCE", "state": "WATCH", "tone": "watch", "rows": [["TF", "20H", "info"], ["SELF ROLE", "SUPPORT", "good"], ["NEXT HINT", "CHECK", "watch"], ["MODE", "QUIET", "watch"], ["EC", "114", "info"], ["LAYER", "FORCE", "info"]]}, {"title": "STRUCTURE", "state": "HOLD", "tone": "good", "rows": [["TF", "20H", "info"], ["SELF ROLE", "SUPPORT", "good"], ["NEXT HINT", "NONE", ""], ["MODE", "STRUCT_HOLD", "good"], ["EC", "227", "warn"], ["LAYER", "STRUCTURE", "info"]]}, {"title": "MAAT", "state": "QUIET", "tone": "watch", "rows": [["FINAL", "RW S51 L31 W2", "info"], ["MODE", "QUIET", "watch"], ["PHASE", "WAIT", "watch"], ["MAIN TF", "20H", "info"], ["PARENT", "22H", "info"], ["WINDOW", "CLOSED", ""], ["NOISE", "QUIET", "good"], ["RESULT", "PENDING", "watch"]]}, {"title": "MAAT2 HUB", "state": "SAMPLE", "tone": "info", "rows": [["MODE", "CORE", "info"], ["RPC", "NEUTRAL", ""], ["STRUCT", "HOLD", "good"], ["TRUE VOL", "BULL DELTA", "good"], ["FORCE SCORE", "63", "warn"], ["WINDOW SCORE", "40", "good"], ["RISK SCORE", "79", "warn"], ["RESULT", "WAIT / WATCH", "watch"]]}]}, "22H": {"measuredAt": "2026-08-02 08:00 KST", "quality": "SAMPLE", "marketState": "WATCH", "observationNeed": "높음", "briefing": "22H 화면 동작 확인용 샘플입니다. 실제 TradingView 계산값이 아닙니다.", "cards": [{"title": "FORCE", "state": "WATCH", "tone": "watch", "rows": [["TF", "22H", "info"], ["SELF ROLE", "RESIST", "danger"], ["NEXT HINT", "NONE", ""], ["MODE", "WATCH", "watch"], ["EC", "118", "info"], ["LAYER", "FORCE", "info"]]}, {"title": "STRUCTURE", "state": "HOLD", "tone": "good", "rows": [["TF", "22H", "info"], ["SELF ROLE", "SUPPORT", "good"], ["NEXT HINT", "NONE", ""], ["MODE", "STRUCT_HOLD", "good"], ["EC", "234", "warn"], ["LAYER", "STRUCTURE", "info"]]}, {"title": "MAAT", "state": "WATCH", "tone": "watch", "rows": [["FINAL", "RW S52 L32 W3", "info"], ["MODE", "WATCH", "watch"], ["PHASE", "PRE_BLOCK", "watch"], ["MAIN TF", "22H", "info"], ["PARENT", "24H", "info"], ["WINDOW", "+/- 50M", "warn"], ["NOISE", "NOISY", "danger"], ["RESULT", "PENDING", "watch"]]}, {"title": "MAAT2 HUB", "state": "SAMPLE", "tone": "info", "rows": [["MODE", "CORE", "info"], ["RPC", "NEUTRAL", ""], ["STRUCT", "HOLD", "good"], ["TRUE VOL", "BULL DELTA", "good"], ["FORCE SCORE", "66", "warn"], ["WINDOW SCORE", "45", "good"], ["RISK SCORE", "83", "warn"], ["RESULT", "WAIT / WATCH", "watch"]]}]}, "24H": {"measuredAt": "2026-08-02 08:00 KST", "quality": "SAMPLE", "marketState": "WINDOW", "observationNeed": "낮음", "briefing": "24H 화면 동작 확인용 샘플입니다. 실제 TradingView 계산값이 아닙니다.", "cards": [{"title": "FORCE", "state": "WATCH", "tone": "watch", "rows": [["TF", "24H", "info"], ["SELF ROLE", "SUPPORT", "good"], ["NEXT HINT", "CHECK", "watch"], ["MODE", "WINDOW", "watch"], ["EC", "122", "info"], ["LAYER", "FORCE", "info"]]}, {"title": "STRUCTURE", "state": "HOLD", "tone": "good", "rows": [["TF", "24H", "info"], ["SELF ROLE", "SUPPORT", "good"], ["NEXT HINT", "NONE", ""], ["MODE", "STRUCT_HOLD", "good"], ["EC", "241", "warn"], ["LAYER", "STRUCTURE", "info"]]}, {"title": "MAAT", "state": "WINDOW", "tone": "watch", "rows": [["FINAL", "RW S53 L33 W4", "info"], ["MODE", "WINDOW", "watch"], ["PHASE", "WAIT", "watch"], ["MAIN TF", "24H", "info"], ["PARENT", "26H", "info"], ["WINDOW", "CLOSED", ""], ["NOISE", "QUIET", "good"], ["RESULT", "PENDING", "watch"]]}, {"title": "MAAT2 HUB", "state": "SAMPLE", "tone": "info", "rows": [["MODE", "CORE", "info"], ["RPC", "NEUTRAL", ""], ["STRUCT", "HOLD", "good"], ["TRUE VOL", "BULL DELTA", "good"], ["FORCE SCORE", "69", "warn"], ["WINDOW SCORE", "50", "good"], ["RISK SCORE", "87", "warn"], ["RESULT", "WAIT / WATCH", "watch"]]}]}}};
+const STORAGE_KEY="ailynx-viewer-v03-data";
+let DATA=loadSaved();
+let tfs=[];
+let index=0;
 const $=id=>document.getElementById(id);
-const tfs=DATA.meta.timeframes.filter(tf=>DATA.frames[tf]);
-let index=Math.max(0,tfs.indexOf("4H"));
-const tone=t=>t||"";
 const esc=v=>String(v??"—").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;");
+const tone=t=>t||"";
+
+function loadSaved(){
+  try{const raw=localStorage.getItem(STORAGE_KEY);return raw?JSON.parse(raw):structuredClone(DEFAULT_DATA)}catch(e){return structuredClone(DEFAULT_DATA)}
+}
+function saveData(){localStorage.setItem(STORAGE_KEY,JSON.stringify(DATA))}
+function rebuildTfs(preferred){
+  const listed=DATA.meta?.timeframes||Object.keys(DATA.frames||{});
+  tfs=listed.filter(tf=>DATA.frames?.[tf]);
+  const want=preferred||tfs[index]||"4H";
+  index=Math.max(0,tfs.indexOf(want));
+  if(index<0)index=0;
+}
 function buttons(){
   $("tfbuttons").innerHTML="";
   tfs.forEach((tf,i)=>{const b=document.createElement("button");b.className="tfbtn";b.textContent=tf;b.onclick=()=>{index=i;render()};$("tfbuttons").appendChild(b)})
 }
 function card(c,i){
-  return `<article class="card"><header class="cardhead"><div class="titlewrap"><span class="idx">${i+1}</span><h2>${esc(c.title)}</h2></div><span class="state ${tone(c.tone)}">${esc(c.state)}</span></header><table><tbody>${c.rows.map(r=>`<tr><th>${esc(r[0])}</th><td class="${tone(r[2])}">${esc(r[1])}</td></tr>`).join("")}</tbody></table></article>`
+  const rows=Array.isArray(c.rows)?c.rows:[];
+  return `<article class="card"><header class="cardhead"><div class="titlewrap"><span class="idx">${i+1}</span><h2>${esc(c.title)}</h2></div><span class="state ${tone(c.tone)}">${esc(c.state)}</span></header><table><tbody>${rows.map(r=>`<tr><th>${esc(r[0])}</th><td class="${tone(r[2])}">${esc(r[1])}</td></tr>`).join("")}</tbody></table></article>`;
+}
+function setBadge(){
+  const src=(DATA.meta?.source||"SAMPLE").toUpperCase();
+  const e=$("sourceBadge");e.textContent=src;e.className="badge";
+  if(src==="MANUAL")e.classList.add("manual");if(src==="LIVE")e.classList.add("live");
 }
 function render(){
+  if(!tfs.length)return;
   const tf=tfs[index],f=DATA.frames[tf];
-  $("symbol").textContent=DATA.meta.symbol;$("selectedTf").textContent=tf;$("measured").textContent=f.measuredAt;$("quality").textContent=f.quality;$("marketState").textContent=f.marketState;$("need").textContent=f.observationNeed;$("brief").textContent=f.briefing;$("stamp").textContent=tf+" · "+f.measuredAt;$("grid").innerHTML=f.cards.map(card).join("");
+  $("symbol").textContent=DATA.meta?.symbol||f.symbol||"—";$("selectedTf").textContent=tf;$("measured").textContent=f.measuredAt||"—";
+  $("quality").textContent=f.quality||"—";$("marketState").textContent=f.marketState||"—";$("need").textContent=f.observationNeed||"—";$("brief").textContent=f.briefing||"—";
+  $("stamp").textContent=tf+" · "+(f.measuredAt||"—");$("grid").innerHTML=(f.cards||[]).map(card).join("");setBadge();
   [...$("tfbuttons").children].forEach((b,i)=>{b.classList.toggle("active",i===index);if(i===index)b.scrollIntoView({block:"nearest",inline:"center"})})
 }
 function move(n){index=(index+n+tfs.length)%tfs.length;render();window.scrollTo({top:0,behavior:"smooth"})}
-function toast(m){const e=$("toast");e.textContent=m;e.classList.add("show");clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove("show"),2200)}
-buttons();render();
-$("prev").onclick=()=>move(-1);$("next").onclick=()=>move(1);
-$("captureBtn").onclick=()=>{document.body.classList.toggle("capture");toast(document.body.classList.contains("capture")?"캡처 모드입니다. 휴대폰 기본 스크린샷을 사용하세요.":"일반 모드로 돌아왔습니다.")};
-$("shareBtn").onclick=()=>toast("현재는 휴대폰 기본 스크린샷 후 ChatGPT에 올리는 방식이 가장 안정적입니다.");
+function toast(m){const e=$("toast");e.textContent=m;e.classList.add("show");clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove("show"),2300)}
+function openModal(){$("dataModal").classList.add("open");$("dataModal").setAttribute("aria-hidden","false")}
+function closeModal(){$("dataModal").classList.remove("open");$("dataModal").setAttribute("aria-hidden","true")}
+function normalizeImported(obj){
+  if(obj?.frames){
+    obj.meta=obj.meta||{};
+    obj.meta.source=obj.meta.source||"MANUAL";
+    obj.meta.symbol=obj.meta.symbol||DATA.meta?.symbol||"OKX:BTCUSDT.P";
+    obj.meta.timeframes=obj.meta.timeframes||Object.keys(obj.frames);
+    return obj;
+  }
+  if(obj?.timeframe && obj?.cards){
+    const tf=obj.timeframe;
+    const frame={measuredAt:obj.measuredAt||"—",quality:obj.quality||"MANUAL",marketState:obj.marketState||"—",observationNeed:obj.observationNeed||"—",briefing:obj.briefing||"",cards:obj.cards};
+    const merged=structuredClone(DATA);
+    merged.meta=merged.meta||{};merged.frames=merged.frames||{};
+    merged.meta.source="MANUAL";merged.meta.symbol=obj.symbol||merged.meta.symbol||"OKX:BTCUSDT.P";
+    merged.frames[tf]=frame;
+    if(!Array.isArray(merged.meta.timeframes))merged.meta.timeframes=Object.keys(merged.frames);
+    if(!merged.meta.timeframes.includes(tf))merged.meta.timeframes.push(tf);
+    return merged;
+  }
+  throw new Error("frames 전체 패킷 또는 timeframe 단일 패킷 형식이 필요합니다.");
+}
+function importJson(){
+  try{
+    const obj=JSON.parse($("jsonInput").value);
+    const preferred=obj.timeframe||tfs[index]||"4H";
+    DATA=normalizeImported(obj);saveData();rebuildTfs(preferred);buttons();render();$("jsonError").textContent="";closeModal();toast("수동 데이터가 저장되었습니다.");
+  }catch(e){$("jsonError").textContent=e.message||"JSON 형식을 확인하세요."}
+}
+async function copyCurrent(){
+  const tf=tfs[index],f=DATA.frames[tf];
+  const packet={symbol:DATA.meta?.symbol,timeframe:tf,...f};
+  const text=JSON.stringify(packet,null,2);
+  try{await navigator.clipboard.writeText(text);toast("현재 패킷을 복사했습니다.")}catch(e){$("jsonInput").value=text;toast("텍스트 상자에 현재 패킷을 넣었습니다.")}
+}
+function resetData(){
+  DATA=structuredClone(DEFAULT_DATA);localStorage.removeItem(STORAGE_KEY);rebuildTfs("4H");buttons();render();$("jsonInput").value="{\n  \"symbol\": \"OKX:BTCUSDT.P\",\n  \"timeframe\": \"4H\",\n  \"measuredAt\": \"2026-08-02 09:00 KST\",\n  \"quality\": \"GOOD\",\n  \"marketState\": \"WATCH / PRE_BLOCK\",\n  \"observationNeed\": \"보통\",\n  \"briefing\": \"수동 입력 패킷 예시입니다.\",\n  \"cards\": [\n    {\n      \"title\": \"FORCE\",\n      \"state\": \"WAIT\",\n      \"tone\": \"watch\",\n      \"rows\": [\n        [\n          \"TF\",\n          \"4H\",\n          \"info\"\n        ],\n        [\n          \"SELF ROLE\",\n          \"SUPPORT\",\n          \"good\"\n        ],\n        [\n          \"NEXT HINT\",\n          \"NONE\",\n          \"\"\n        ],\n        [\n          \"MODE\",\n          \"WAIT\",\n          \"watch\"\n        ],\n        [\n          \"EC\",\n          \"100\",\n          \"info\"\n        ],\n        [\n          \"LAYER\",\n          \"FORCE\",\n          \"info\"\n        ]\n      ]\n    },\n    {\n      \"title\": \"STRUCTURE\",\n      \"state\": \"RECOVERY_FAIL\",\n      \"tone\": \"danger\",\n      \"rows\": [\n        [\n          \"TF\",\n          \"4H\",\n          \"info\"\n        ],\n        [\n          \"SELF ROLE\",\n          \"SUPPORT\",\n          \"good\"\n        ],\n        [\n          \"NEXT HINT\",\n          \"NONE\",\n          \"\"\n        ],\n        [\n          \"MODE\",\n          \"RECOVERY_FAIL\",\n          \"danger\"\n        ],\n        [\n          \"EC\",\n          \"230\",\n          \"warn\"\n        ],\n        [\n          \"LAYER\",\n          \"STRUCTURE\",\n          \"info\"\n        ]\n      ]\n    },\n    {\n      \"title\": \"MAAT\",\n      \"state\": \"WATCH\",\n      \"tone\": \"watch\",\n      \"rows\": [\n        [\n          \"FINAL\",\n          \"RW S42 L25 W4\",\n          \"info\"\n        ],\n        [\n          \"MODE\",\n          \"WATCH\",\n          \"watch\"\n        ],\n        [\n          \"PHASE\",\n          \"PRE_BLOCK\",\n          \"watch\"\n        ],\n        [\n          \"MAIN TF\",\n          \"96H\",\n          \"info\"\n        ],\n        [\n          \"PARENT\",\n          \"24H\",\n          \"info\"\n        ],\n        [\n          \"NEXT\",\n          \"07-12 00:00\",\n          \"\"\n        ],\n        [\n          \"WINDOW\",\n          \"+/- 50M\",\n          \"warn\"\n        ],\n        [\n          \"COUNT\",\n          \"16H 43M\",\n          \"info\"\n        ],\n        [\n          \"NOISE\",\n          \"QUIET 48\",\n          \"good\"\n        ],\n        [\n          \"VOL\",\n          \"IDLE\",\n          \"\"\n        ],\n        [\n          \"RESULT\",\n          \"PENDING\",\n          \"watch\"\n        ],\n        [\n          \"RESET\",\n          \"NO\",\n          \"\"\n        ]\n      ]\n    },\n    {\n      \"title\": \"MAAT2 HUB\",\n      \"state\": \"ON HOLD\",\n      \"tone\": \"watch\",\n      \"rows\": [\n        [\n          \"MODE\",\n          \"CORE\",\n          \"info\"\n        ],\n        [\n          \"EXPANSION\",\n          \"ON HOLD\",\n          \"watch\"\n        ],\n        [\n          \"TRUE VOL\",\n          \"BULL DELTA\",\n          \"good\"\n        ],\n        [\n          \"RPC\",\n          \"NEUTRAL\",\n          \"\"\n        ],\n        [\n          \"STRUCT\",\n          \"BULL M-TIME\",\n          \"good\"\n        ],\n        [\n          \"WENUT\",\n          \"BULL M-TIME\",\n          \"good\"\n        ],\n        [\n          \"HERU\",\n          \"BEAR\",\n          \"danger\"\n        ],\n        [\n          \"RISK GATE\",\n          \"NEUTRAL\",\n          \"\"\n        ],\n        [\n          \"FORCE SCORE\",\n          \"37\",\n          \"warn\"\n        ],\n        [\n          \"WINDOW SCORE\",\n          \"87\",\n          \"good\"\n        ],\n        [\n          \"RISK SCORE\",\n          \"81\",\n          \"danger\"\n        ],\n        [\n          \"PHASE\",\n          \"FORCE_EVENT\",\n          \"watch\"\n        ],\n        [\n          \"RESULT\",\n          \"WAIT / WATCH\",\n          \"watch\"\n        ]\n      ]\n    }\n  ]\n}";closeModal();toast("샘플 데이터로 초기화했습니다.");
+}
+function filename(){
+  const tf=tfs[index],d=new Date(),p=n=>String(n).padStart(2,"0");
+  return `LYNX_BTC_${tf}_${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}_${p(d.getHours())}${p(d.getMinutes())}.png`;
+}
+async function capturePng(){
+  if(typeof html2canvas!=="function"){toast("캡처 라이브러리를 불러오지 못했습니다.");return}
+  document.body.classList.add("capturing");toast("이미지를 만드는 중입니다…");
+  try{
+    await new Promise(r=>setTimeout(r,180));
+    const canvas=await html2canvas($("captureArea"),{backgroundColor:"#050809",scale:Math.min(2.5,window.devicePixelRatio||2),useCORS:true,logging:false});
+    const blob=await new Promise(r=>canvas.toBlob(r,"image/png"));
+    if(!blob)throw new Error("PNG 생성 실패");
+    const file=new File([blob],filename(),{type:"image/png"});
+    if(navigator.canShare && navigator.canShare({files:[file]})){
+      await navigator.share({files:[file],title:`AiLynx ${tfs[index]}`,text:"AiLynx BTC Timeframe Viewer"});
+      toast("공유 화면을 열었습니다.");
+    }else{
+      const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=file.name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);toast("PNG 저장 요청을 보냈습니다.");
+    }
+  }catch(e){if(e?.name!=="AbortError")toast("PNG 생성 또는 공유에 실패했습니다.")}
+  finally{document.body.classList.remove("capturing")}
+}
+
+rebuildTfs("4H");buttons();render();
+$("prev").onclick=()=>move(-1);$("next").onclick=()=>move(1);$("pngBtn").onclick=capturePng;$("dataBtn").onclick=openModal;
+$("closeModal").onclick=closeModal;$("closeModal2").onclick=closeModal;$("importBtn").onclick=importJson;$("copyBtn").onclick=copyCurrent;
+$("sampleBtn").onclick=()=>{$("jsonInput").value="{\n  \"symbol\": \"OKX:BTCUSDT.P\",\n  \"timeframe\": \"4H\",\n  \"measuredAt\": \"2026-08-02 09:00 KST\",\n  \"quality\": \"GOOD\",\n  \"marketState\": \"WATCH / PRE_BLOCK\",\n  \"observationNeed\": \"보통\",\n  \"briefing\": \"수동 입력 패킷 예시입니다.\",\n  \"cards\": [\n    {\n      \"title\": \"FORCE\",\n      \"state\": \"WAIT\",\n      \"tone\": \"watch\",\n      \"rows\": [\n        [\n          \"TF\",\n          \"4H\",\n          \"info\"\n        ],\n        [\n          \"SELF ROLE\",\n          \"SUPPORT\",\n          \"good\"\n        ],\n        [\n          \"NEXT HINT\",\n          \"NONE\",\n          \"\"\n        ],\n        [\n          \"MODE\",\n          \"WAIT\",\n          \"watch\"\n        ],\n        [\n          \"EC\",\n          \"100\",\n          \"info\"\n        ],\n        [\n          \"LAYER\",\n          \"FORCE\",\n          \"info\"\n        ]\n      ]\n    },\n    {\n      \"title\": \"STRUCTURE\",\n      \"state\": \"RECOVERY_FAIL\",\n      \"tone\": \"danger\",\n      \"rows\": [\n        [\n          \"TF\",\n          \"4H\",\n          \"info\"\n        ],\n        [\n          \"SELF ROLE\",\n          \"SUPPORT\",\n          \"good\"\n        ],\n        [\n          \"NEXT HINT\",\n          \"NONE\",\n          \"\"\n        ],\n        [\n          \"MODE\",\n          \"RECOVERY_FAIL\",\n          \"danger\"\n        ],\n        [\n          \"EC\",\n          \"230\",\n          \"warn\"\n        ],\n        [\n          \"LAYER\",\n          \"STRUCTURE\",\n          \"info\"\n        ]\n      ]\n    },\n    {\n      \"title\": \"MAAT\",\n      \"state\": \"WATCH\",\n      \"tone\": \"watch\",\n      \"rows\": [\n        [\n          \"FINAL\",\n          \"RW S42 L25 W4\",\n          \"info\"\n        ],\n        [\n          \"MODE\",\n          \"WATCH\",\n          \"watch\"\n        ],\n        [\n          \"PHASE\",\n          \"PRE_BLOCK\",\n          \"watch\"\n        ],\n        [\n          \"MAIN TF\",\n          \"96H\",\n          \"info\"\n        ],\n        [\n          \"PARENT\",\n          \"24H\",\n          \"info\"\n        ],\n        [\n          \"NEXT\",\n          \"07-12 00:00\",\n          \"\"\n        ],\n        [\n          \"WINDOW\",\n          \"+/- 50M\",\n          \"warn\"\n        ],\n        [\n          \"COUNT\",\n          \"16H 43M\",\n          \"info\"\n        ],\n        [\n          \"NOISE\",\n          \"QUIET 48\",\n          \"good\"\n        ],\n        [\n          \"VOL\",\n          \"IDLE\",\n          \"\"\n        ],\n        [\n          \"RESULT\",\n          \"PENDING\",\n          \"watch\"\n        ],\n        [\n          \"RESET\",\n          \"NO\",\n          \"\"\n        ]\n      ]\n    },\n    {\n      \"title\": \"MAAT2 HUB\",\n      \"state\": \"ON HOLD\",\n      \"tone\": \"watch\",\n      \"rows\": [\n        [\n          \"MODE\",\n          \"CORE\",\n          \"info\"\n        ],\n        [\n          \"EXPANSION\",\n          \"ON HOLD\",\n          \"watch\"\n        ],\n        [\n          \"TRUE VOL\",\n          \"BULL DELTA\",\n          \"good\"\n        ],\n        [\n          \"RPC\",\n          \"NEUTRAL\",\n          \"\"\n        ],\n        [\n          \"STRUCT\",\n          \"BULL M-TIME\",\n          \"good\"\n        ],\n        [\n          \"WENUT\",\n          \"BULL M-TIME\",\n          \"good\"\n        ],\n        [\n          \"HERU\",\n          \"BEAR\",\n          \"danger\"\n        ],\n        [\n          \"RISK GATE\",\n          \"NEUTRAL\",\n          \"\"\n        ],\n        [\n          \"FORCE SCORE\",\n          \"37\",\n          \"warn\"\n        ],\n        [\n          \"WINDOW SCORE\",\n          \"87\",\n          \"good\"\n        ],\n        [\n          \"RISK SCORE\",\n          \"81\",\n          \"danger\"\n        ],\n        [\n          \"PHASE\",\n          \"FORCE_EVENT\",\n          \"watch\"\n        ],\n        [\n          \"RESULT\",\n          \"WAIT / WATCH\",\n          \"watch\"\n        ]\n      ]\n    }\n  ]\n}";$("jsonError").textContent=""};
+$("resetBtn").onclick=resetData;
+$("dataModal").onclick=e=>{if(e.target===$("dataModal"))closeModal()};
 </script>
 </body>
 </html>
